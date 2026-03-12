@@ -15,7 +15,7 @@ class ApiService {
   // Change to your PC's IP when testing on phone
   // Use 'http://localhost:8000/api' for web/desktop
   // Use 'http://192.168.5.173:8000/api' for phone on same WiFi
-  static const String baseUrl = 'http://192.168.5.173:8000/api';
+  static const String baseUrl = 'https://digitalcassette-api.onrender.com/api';
 
   ApiService(this._storageService) {
     _dio = Dio(
