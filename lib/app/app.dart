@@ -24,7 +24,7 @@ class _DigitalCassetteAppState extends ConsumerState<DigitalCassetteApp> {
 
   Future<void> _initDeepLinks() async {
     // Cold start link handling (app closed -> opened by link)
-    final initialUri = await _appLinks.getInitialAppLink();
+    final initialUri = await _appLinks.getInitialLink();
     if (initialUri != null) {
       _navigateFromUri(initialUri);
     }
