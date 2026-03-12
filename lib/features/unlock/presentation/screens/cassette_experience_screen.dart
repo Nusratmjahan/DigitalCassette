@@ -310,14 +310,7 @@ class _CassetteExperienceScreenState
                   ),
                   child: Column(
                     children: [
-                      Text(
-                        cassette.letterText,
-                        style: AppTypography.body.copyWith(
-                          color: AppColors.white,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: AppSpacing.md),
+                      // Emotion tag above the letter card
                       Text(
                         cassette.emotionTag.toUpperCase(),
                         style: AppTypography.bodySmall.copyWith(
@@ -326,14 +319,48 @@ class _CassetteExperienceScreenState
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      const SizedBox(height: AppSpacing.lg),
+                      const SizedBox(height: AppSpacing.md),
 
-                      // Sender info
-                      Text(
-                        'From: ${cassette.displaySenderName}',
-                        style: AppTypography.body.copyWith(
-                          color: AppColors.white.withValues(alpha: 0.6),
-                          fontSize: 14,
+                      // Letter card
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(AppSpacing.xl),
+                        decoration: BoxDecoration(
+                          color: AppColors.reelBrown.withValues(alpha: 0.45),
+                          borderRadius: BorderRadius.circular(
+                            AppSpacing.radiusLarge,
+                          ),
+                          border: Border.all(
+                            color: AppColors.accent.withValues(alpha: 0.35),
+                            width: 1,
+                          ),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              cassette.letterText,
+                              style: AppTypography.handwrittenLarge.copyWith(
+                                color: AppColors.white,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 20,
+                                height: 1.8,
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
+                            const SizedBox(height: AppSpacing.lg),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                '— ${cassette.displaySenderName}',
+                                style: AppTypography.handwritten.copyWith(
+                                  color: AppColors.accent,
+                                  fontStyle: FontStyle.italic,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       const SizedBox(height: AppSpacing.xxl),
