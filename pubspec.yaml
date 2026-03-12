@@ -36,6 +36,9 @@ dependencies:
   # Authentication
   google_sign_in: ^6.2.1
   
+  # Deep Links
+  app_links: ^6.1.1
+  
   # Utilities
   intl: ^0.20.2
   url_launcher: ^6.2.0
