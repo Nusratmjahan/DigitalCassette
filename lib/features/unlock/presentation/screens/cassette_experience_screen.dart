@@ -39,10 +39,7 @@ class _CassetteExperienceScreenState
       duration: const Duration(milliseconds: 1500),
       vsync: this,
     );
-    _fadeAnimation = CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeIn,
-    );
+    _fadeAnimation = CurvedAnimation(parent: _controller, curve: Curves.easeIn);
 
     // Start reveal animation
     Future.delayed(const Duration(milliseconds: 300), () {
@@ -225,7 +222,7 @@ class _CassetteExperienceScreenState
     }
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColors.deepBrown,
       body: SafeArea(
         child: FadeTransition(
           opacity: _fadeAnimation,
@@ -237,7 +234,10 @@ class _CassetteExperienceScreenState
                 child: Row(
                   children: [
                     IconButton(
-                      icon: const Icon(Icons.arrow_back),
+                      icon: const Icon(
+                        Icons.arrow_back,
+                        color: AppColors.white,
+                      ),
                       onPressed: () {
                         if (context.canPop()) {
                           context.pop();
@@ -259,9 +259,7 @@ class _CassetteExperienceScreenState
                     Center(
                       child: Column(
                         children: [
-                          const CassettePlayerWidget(
-                            size: 240,
-                          ),
+                          const CassettePlayerWidget(size: 240),
                           const SizedBox(height: AppSpacing.lg),
                           Text(
                             cassette.emotionEmoji,
@@ -291,8 +289,9 @@ class _CassetteExperienceScreenState
                           vertical: AppSpacing.lg,
                         ),
                         shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(AppSpacing.radiusMedium),
+                          borderRadius: BorderRadius.circular(
+                            AppSpacing.radiusMedium,
+                          ),
                         ),
                         elevation: 4,
                       ),
@@ -313,7 +312,9 @@ class _CassetteExperienceScreenState
                     children: [
                       Text(
                         cassette.letterText,
-                        style: AppTypography.body,
+                        style: AppTypography.body.copyWith(
+                          color: AppColors.white,
+                        ),
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: AppSpacing.md),
@@ -331,7 +332,7 @@ class _CassetteExperienceScreenState
                       Text(
                         'From: ${cassette.displaySenderName}',
                         style: AppTypography.body.copyWith(
-                          color: AppColors.mutedText,
+                          color: AppColors.white.withValues(alpha: 0.6),
                           fontSize: 14,
                         ),
                       ),
