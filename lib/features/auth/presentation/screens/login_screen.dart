@@ -224,37 +224,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     ),
                   ],
                 ),
-
-                const SizedBox(height: AppSpacing.xxxl),
-                Container(
-                  padding: const EdgeInsets.all(AppSpacing.md),
-                  decoration: BoxDecoration(
-                    color: AppColors.cream,
-                    borderRadius: BorderRadius.circular(
-                      AppSpacing.radiusMedium,
-                    ),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Demo Credentials:',
-                        style: AppTypography.bodySmall.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(height: AppSpacing.xs),
-                      Text(
-                        'Email: maya@example.com',
-                        style: AppTypography.bodySmall,
-                      ),
-                      Text(
-                        'Password: password123',
-                        style: AppTypography.bodySmall,
-                      ),
-                    ],
-                  ),
-                ),
               ],
             ),
           ),

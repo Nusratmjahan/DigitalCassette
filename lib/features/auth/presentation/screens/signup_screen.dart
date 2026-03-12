@@ -103,7 +103,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                   controller: _nameController,
                   decoration: const InputDecoration(
                     labelText: 'Full Name',
-                    hintText: 'John Doe',
+                    hintText: 'Enter your full name',
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
