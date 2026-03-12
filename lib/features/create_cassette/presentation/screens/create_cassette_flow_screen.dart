@@ -181,6 +181,18 @@ class _CreateCassetteFlowScreenState
     }
   }
 
+  String _buildShareDetailsMessage() {
+    return '''🎵 You received a Digital Cassette!
+
+Open link:
+${_shareUrl!}
+
+Share Code: $_shareCode
+Password: ${_passwordController.text}
+
+(Use the password to unlock)''';
+  }
+
   void _showSuccessDialog() {
     if (_shareUrl == null || _shareCode == null) {
       AppToast.show(
@@ -223,6 +235,11 @@ class _CreateCassetteFlowScreenState
               'Password: ${_passwordController.text}',
               style: const TextStyle(fontWeight: FontWeight.w600),
             ),
+            const SizedBox(height: AppSpacing.sm),
+            Text(
+              'Tip: Copy Details sends link + code + password together.',
+              style: AppTypography.caption.copyWith(color: AppColors.mutedText),
+            ),
           ],
         ),
         actions: [
@@ -240,14 +257,24 @@ class _CreateCassetteFlowScreenState
             },
             child: const Text('Test Unlock'),
           ),
+          TextButton(
+            onPressed: () {
+              Clipboard.setData(ClipboardData(text: _shareUrl!));
+              AppToast.show(context, 'Link copied!');
+            },
+            child: const Text('Copy Link Only'),
+          ),
           ElevatedButton(
             onPressed: () {
               Clipboard.setData(
-                ClipboardData(text: _shareUrl!),
+                ClipboardData(text: _buildShareDetailsMessage()),
               );
-              AppToast.show(context, 'Link copied!');
+              AppToast.show(
+                context,
+                'Details copied (link + code + password)!',
+              );
             },
-            child: const Text('Copy Link'),
+            child: const Text('Copy Details'),
           ),
         ],
       ),
