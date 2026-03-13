@@ -156,8 +156,20 @@ class CassetteCard extends StatelessWidget {
   Widget _buildPlaceholder() {
     return Container(
       color: AppColors.cream,
-      child: const Center(
-        child: Icon(Icons.music_note, size: 48, color: AppColors.lightBrown),
+      child: Center(
+        child: Container(
+          width: 64,
+          height: 64,
+          decoration: const BoxDecoration(
+            color: AppColors.cassetteBrown,
+            shape: BoxShape.circle,
+          ),
+          child: const Icon(
+            Icons.music_note_rounded,
+            size: 34,
+            color: AppColors.amberAccent,
+          ),
+        ),
       ),
     );
   }
