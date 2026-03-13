@@ -289,6 +289,28 @@ class LandingHomeScreen extends ConsumerWidget {
               onPressed: () => _showEnterCodeDialog(context),
             ),
           ),
+          const SizedBox(height: AppSpacing.md),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.library_music_rounded,
+                size: 16,
+                color: AppColors.accent.withOpacity(0.8),
+              ),
+              const SizedBox(width: AppSpacing.xs),
+              Flexible(
+                child: Text(
+                  'Open your library & see Inbox, Saved, Sent cassettes',
+                  textAlign: TextAlign.center,
+                  style: AppTypography.bodySmall.copyWith(
+                    color: AppColors.mutedText,
+                    height: 1.4,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );
