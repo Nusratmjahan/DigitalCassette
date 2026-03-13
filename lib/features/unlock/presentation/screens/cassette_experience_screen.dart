@@ -138,8 +138,8 @@ class _CassetteExperienceScreenState
       );
 
       if (shouldLogin == true && mounted) {
-        // Navigate to signup with return path
-        context.push('/signup');
+        final from = Uri.encodeComponent('/cassette/${widget.cassetteId}');
+        context.push('/login?from=$from');
       }
       return;
     }
@@ -195,8 +195,8 @@ class _CassetteExperienceScreenState
       );
 
       if (shouldLogin == true && mounted) {
-        // Navigate to signup with return path
-        context.push('/signup');
+        final from = Uri.encodeComponent('/cassette/${widget.cassetteId}');
+        context.push('/login?from=$from');
       }
       return;
     }
@@ -364,6 +364,16 @@ class _CassetteExperienceScreenState
                         ),
                       ),
                       const SizedBox(height: AppSpacing.xxl),
+
+                      // Save button
+                      SecondaryButton(
+                        text: _isSaved
+                            ? '✓ Saved to Library'
+                            : '💾 Save to Library',
+                        onPressed: _isSaved ? null : _handleSave,
+                        isLoading: _isSaving,
+                      ),
+                      const SizedBox(height: AppSpacing.md),
 
                       // Reply button
                       PrimaryButton(

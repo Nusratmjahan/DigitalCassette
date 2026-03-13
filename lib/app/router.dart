@@ -42,6 +42,7 @@ final routerProvider = Provider<GoRouter>((ref) {
     // Global redirect logic
     redirect: (context, state) {
       final location = state.matchedLocation;
+      final from = state.uri.queryParameters['from'];
       final isPublic = _isPublicRoute(location);
 
       // Show splash while checking auth status
@@ -73,6 +74,9 @@ final routerProvider = Provider<GoRouter>((ref) {
           (location == '/welcome' ||
               location == '/login' ||
               location == '/signup')) {
+        if (from != null && from.isNotEmpty && from.startsWith('/')) {
+          return from;
+        }
         return '/';
       }
 
