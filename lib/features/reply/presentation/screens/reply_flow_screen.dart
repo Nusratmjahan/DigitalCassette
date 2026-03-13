@@ -107,7 +107,19 @@ class _ReplyFlowScreenState extends ConsumerState<ReplyFlowScreen> {
             ),
             child: Row(
               children: [
-                const Icon(Icons.album, color: AppColors.amberAccent),
+                Container(
+                  width: 40,
+                  height: 40,
+                  decoration: const BoxDecoration(
+                    color: AppColors.cassetteBrown,
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.music_note_rounded,
+                    color: AppColors.amberAccent,
+                    size: 22,
+                  ),
+                ),
                 const SizedBox(width: AppSpacing.md),
                 Expanded(
                   child: Column(
@@ -236,7 +248,19 @@ class _ReplyFlowScreenState extends ConsumerState<ReplyFlowScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Icon(Icons.music_note, color: AppColors.amberAccent),
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: const BoxDecoration(
+                      color: AppColors.cassetteBrown,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.music_note_rounded,
+                      color: AppColors.amberAccent,
+                      size: 22,
+                    ),
+                  ),
                   const SizedBox(height: AppSpacing.md),
                   Text(_replyTextController.text, style: AppTypography.body),
                 ],

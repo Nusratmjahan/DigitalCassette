@@ -165,10 +165,36 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen>
 
   Widget _buildCassetteGrid(List<Cassette> cassettes) {
     if (cassettes.isEmpty) {
-      return const EmptyState(
-        icon: Icons.album_outlined,
-        title: 'No cassettes yet',
-        subtitle: 'Your memories will appear here',
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.all(AppSpacing.xl),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 88,
+                height: 88,
+                decoration: const BoxDecoration(
+                  color: AppColors.cassetteBrown,
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.music_note_rounded,
+                  size: 44,
+                  color: AppColors.amberAccent,
+                ),
+              ),
+              const SizedBox(height: AppSpacing.xl),
+              const Text('No cassettes yet'),
+              const SizedBox(height: AppSpacing.sm),
+              Text(
+                'Your memories will appear here',
+                style: TextStyle(color: AppColors.lightBrown),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
       );
     }
 

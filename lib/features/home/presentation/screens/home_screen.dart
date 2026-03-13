@@ -221,10 +221,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
               child: Column(
                 children: [
-                  Icon(
-                    Icons.album_outlined,
-                    size: 48,
-                    color: AppColors.lightBrown.withOpacity(0.5),
+                  Container(
+                    width: 56,
+                    height: 56,
+                    decoration: BoxDecoration(
+                      color: AppColors.cassetteBrown,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      Icons.music_note_rounded,
+                      size: 30,
+                      color: AppColors.amberAccent.withOpacity(0.95),
+                    ),
                   ),
                   const SizedBox(height: AppSpacing.sm),
                   Text(
