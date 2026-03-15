@@ -41,8 +41,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       final isSubscribed = await bdapps.checkAlreadySubscribed(phone);
 
       if (isSubscribed) {
-        await ref.read(authProvider.notifier).loginWithPhone(phone);
-        if (mounted) context.go('/');
+        final ok = await ref.read(authProvider.notifier).loginWithPhone(phone);
+        if (!mounted) return;
+        if (ok) {
+          context.go('/');
+        } else {
+          AppToast.show(context, 'লগইন করতে সমস্যা হয়েছে', isError: true);
+        }
         return;
       }
 
@@ -51,6 +56,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       final referenceNo = otpData['referenceNo']?.toString().trim() ?? '';
       final message = otpData['message']?.toString() ?? '';
       final statusDetail = otpData['statusDetail']?.toString() ?? '';
+      final statusCode =
+          otpData['statusCode']?.toString().trim().toUpperCase() ?? '';
 
       if (success && referenceNo.isNotEmpty) {
         if (!mounted) return;
@@ -61,6 +68,18 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 OtpVerifyPage(phone: phone, referenceNo: referenceNo),
           ),
         );
+      } else if (statusCode == 'E1351' ||
+          message.toLowerCase().contains('already registered') ||
+          statusDetail.toLowerCase().contains('already registered')) {
+        // User already registered in BDApps - proceed with login directly.
+        final ok = await ref.read(authProvider.notifier).loginWithPhone(phone);
+        if (!mounted) return;
+        if (ok) {
+          AppToast.show(context, 'ইতিমধ্যে রেজিস্টার করা আছে। লগইন হচ্ছে...');
+          context.go('/');
+        } else {
+          AppToast.show(context, 'লগইন করতে সমস্যা হয়েছে', isError: true);
+        }
       } else {
         final errorMsg = message.isNotEmpty
             ? message
@@ -178,9 +197,14 @@ class _OtpVerifyPageState extends ConsumerState<OtpVerifyPage> {
 
       if (statusCode == 'S1000') {
         await bdapps.waitForSubscriptionSync(widget.phone);
-        await ref.read(authProvider.notifier).loginWithPhone(widget.phone);
+        final ok =
+            await ref.read(authProvider.notifier).loginWithPhone(widget.phone);
         if (!mounted) return;
-        context.go('/');
+        if (ok) {
+          context.go('/');
+        } else {
+          AppToast.show(context, 'লগইন করতে সমস্যা হয়েছে', isError: true);
+        }
       } else {
         final message = data['message']?.toString() ??
             data['statusDetail']?.toString() ??
