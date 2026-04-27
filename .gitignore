@@ -53,3 +53,9 @@ backend/.env.*
 *.key
 *.pem
 android/key.properties
+
+# Local-only folders/files (security & hygiene)
+venv/
+.venv/
+tuneletter_backup/
+.metadata
