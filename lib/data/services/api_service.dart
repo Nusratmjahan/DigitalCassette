@@ -15,7 +15,7 @@ class ApiService {
   // Change to your PC's IP when testing on phone
   // Use 'http://localhost:8000/api' for web/desktop
   // Use 'http://192.168.5.173:8000/api' for phone on same WiFi
-  static const String baseUrl = 'https://digitalcassette-api.onrender.com/api';
+  static const String baseUrl = 'https://digitaltune.onrender.com/api';
 
   ApiService(this._storageService) {
     _dio = Dio(
@@ -193,7 +193,7 @@ class ApiService {
   Future<void> pingHealth() async {
     try {
       await Dio().get(
-        'https://digitalcassette-api.onrender.com/health',
+        'https://digitaltune.onrender.com/health',
         options: Options(
           sendTimeout: const Duration(seconds: 10),
           receiveTimeout: const Duration(seconds: 10),

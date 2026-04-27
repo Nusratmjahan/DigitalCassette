@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:dio/dio.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_typography.dart';
@@ -98,6 +99,52 @@ class _CreateCassetteFlowScreenState
     }
   }
 
+  String _normalizeYoutubeUrl(String raw) {
+    final input = raw.trim();
+    if (input.isEmpty) return input;
+
+    final uri = Uri.tryParse(input);
+    if (uri == null) return input;
+
+    final host = uri.host.toLowerCase();
+    const idRegex = r'^[a-zA-Z0-9_-]{11}$';
+
+    // youtube.com/watch?v=<id> (or any URL carrying v=<id>)
+    final vId = uri.queryParameters['v'];
+    if (vId != null && RegExp(idRegex).hasMatch(vId)) {
+      return 'https://www.youtube.com/watch?v=$vId';
+    }
+
+    // youtube.com/playlist?list=RD<id>
+    final list = uri.queryParameters['list'];
+    if (list != null && list.startsWith('RD') && list.length >= 13) {
+      final id = list.substring(2, 13);
+      if (RegExp(idRegex).hasMatch(id)) {
+        return 'https://www.youtube.com/watch?v=$id';
+      }
+    }
+
+    // youtu.be/<id>
+    if (host == 'youtu.be' && uri.pathSegments.isNotEmpty) {
+      final id = uri.pathSegments.first;
+      if (RegExp(idRegex).hasMatch(id)) {
+        return 'https://www.youtube.com/watch?v=$id';
+      }
+    }
+
+    // youtube.com/shorts/<id>
+    if (host.contains('youtube.com') &&
+        uri.pathSegments.length >= 2 &&
+        uri.pathSegments.first == 'shorts') {
+      final id = uri.pathSegments[1];
+      if (RegExp(idRegex).hasMatch(id)) {
+        return 'https://www.youtube.com/watch?v=$id';
+      }
+    }
+
+    return input;
+  }
+
   @override
   void dispose() {
     _youtubeLinkController.dispose();
@@ -131,9 +178,12 @@ class _CreateCassetteFlowScreenState
 
     try {
       final apiService = ref.read(apiServiceProvider);
+      final normalizedYoutubeUrl = _normalizeYoutubeUrl(
+        _youtubeLinkController.text,
+      );
 
       final response = await apiService.createCassette(
-        youtubeUrl: _youtubeLinkController.text.trim(),
+        youtubeUrl: normalizedYoutubeUrl,
         letterText: _letterController.text.trim(),
         emotionTag: _getEmotionTagString(_selectedEmotion!),
         password: _passwordController.text,
@@ -166,6 +216,26 @@ class _CreateCassetteFlowScreenState
       });
 
       _showSuccessDialog();
+    } on DioException catch (e) {
+      debugPrint('Error creating cassette (Dio): $e');
+
+      if (!mounted) return;
+
+      setState(() => _isLoading = false);
+
+      String? detail;
+      final data = e.response?.data;
+      if (data is Map) {
+        detail = data['detail']?.toString() ??
+            data['message']?.toString() ??
+            data['error']?.toString();
+      }
+
+      AppToast.show(
+        context,
+        detail ?? 'Failed to create cassette. Please try again.',
+        isError: true,
+      );
     } catch (e) {
       debugPrint('Error creating cassette: $e');
 
@@ -182,15 +252,16 @@ class _CreateCassetteFlowScreenState
   }
 
   String _buildShareDetailsMessage() {
-    return '''🎵 You received a TuneLetter!
+    return '''🎵 You’ve received a TuneLetter
 
-Open link:
+A message + a song, just for you.
+
+Open it:
 ${_shareUrl!}
 
-Share Code: $_shareCode
-Password: ${_passwordController.text}
+🔐 Password: ${_passwordController.text}
 
-(Use the password to unlock)''';
+(Code included internally if needed)''';
   }
 
   void _showSuccessDialog() {
@@ -227,17 +298,12 @@ Password: ${_passwordController.text}
             ),
             const SizedBox(height: AppSpacing.md),
             Text(
-              'Share Code: $_shareCode',
-              style: const TextStyle(fontWeight: FontWeight.w600),
-            ),
-            const SizedBox(height: AppSpacing.sm),
-            Text(
               'Password: ${_passwordController.text}',
               style: const TextStyle(fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: AppSpacing.sm),
             Text(
-              'Tip: Copy Details sends link + code + password together.',
+              'Tip: Copy Details sends link + password together.',
               style: AppTypography.caption.copyWith(color: AppColors.mutedText),
             ),
           ],
@@ -255,7 +321,7 @@ Password: ${_passwordController.text}
               context.pop();
               context.push('/unlock/$_shareCode');
             },
-            child: const Text('Test Unlock'),
+            child: const Text('Open in App'),
           ),
           TextButton(
             onPressed: () {
@@ -271,7 +337,7 @@ Password: ${_passwordController.text}
               );
               AppToast.show(
                 context,
-                'Details copied (link + code + password)!',
+                'Details copied (link + password)!',
               );
             },
             child: const Text('Copy Details'),

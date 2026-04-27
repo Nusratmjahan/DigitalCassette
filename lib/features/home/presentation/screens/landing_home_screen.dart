@@ -63,7 +63,8 @@ class LandingHomeScreen extends ConsumerWidget {
       ),
       decoration: BoxDecoration(
         color: AppColors.white.withOpacity(0.6),
-        border: const Border(bottom: BorderSide(color: AppColors.border, width: 1)),
+        border:
+            const Border(bottom: BorderSide(color: AppColors.border, width: 1)),
       ),
       child: SafeArea(
         child: Row(
@@ -322,13 +323,13 @@ class LandingHomeScreen extends ConsumerWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Open Cassette'),
+        title: const Text('Open a Cassette'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Enter the 6-character share code',
+              'Enter the 6-character share code to open password screen.',
               style: AppTypography.body.copyWith(color: AppColors.mutedText),
             ),
             const SizedBox(height: AppSpacing.lg),
@@ -342,7 +343,6 @@ class LandingHomeScreen extends ConsumerWidget {
                 counterText: '',
               ),
               onChanged: (value) {
-                // Auto-uppercase
                 if (value != value.toUpperCase()) {
                   codeController.value = codeController.value.copyWith(
                     text: value.toUpperCase(),
@@ -373,8 +373,9 @@ class LandingHomeScreen extends ConsumerWidget {
                 );
                 return;
               }
+
               Navigator.of(context).pop();
-              context.push('/unlock/$code');
+              context.push('/unlock/${code.toUpperCase()}');
             },
             child: const Text('Open'),
           ),

@@ -152,12 +152,30 @@ class _UnlockScreenState extends ConsumerState<UnlockScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Locked cassette visual
+                Text(
+                  '🎵 You’ve received a TuneLetter',
+                  style: AppTypography.h2.copyWith(
+                    color: AppColors.white,
+                    fontSize: 24,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: AppSpacing.sm),
+                Text(
+                  'A message + a song, just for you.',
+                  style: AppTypography.body.copyWith(
+                    color: AppColors.white.withValues(alpha: 0.7),
+                    fontSize: 16,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: AppSpacing.xl),
+
                 Container(
                   width: 140,
                   height: 140,
                   decoration: BoxDecoration(
-                    color: AppColors.accent.withValues(alpha: 0.2),
+                    color: AppColors.accent.withValues(alpha: 0.18),
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(
@@ -166,34 +184,34 @@ class _UnlockScreenState extends ConsumerState<UnlockScreen> {
                     color: AppColors.accent,
                   ),
                 ),
-                const SizedBox(height: AppSpacing.xxl),
+                const SizedBox(height: AppSpacing.xl),
 
-                // Header text - warm and emotional
                 Text(
                   '${cassette.displaySenderName} sent you a memory',
-                  style: AppTypography.h2.copyWith(
-                    color: AppColors.white,
-                    fontSize: 24,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: AppSpacing.md),
-
-                Text(
-                  '${cassette.emotionEmoji} ${cassette.emotionTag}',
                   style: AppTypography.h3.copyWith(
-                    color: AppColors.accent,
-                    fontSize: 18,
+                    color: AppColors.white,
+                    fontSize: 20,
                   ),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: AppSpacing.sm),
 
                 Text(
-                  'Enter the password to unlock',
+                  '${cassette.emotionEmoji} ${cassette.emotionTag}',
+                  style: AppTypography.body.copyWith(
+                    color: AppColors.accent,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: AppSpacing.sm),
+
+                Text(
+                  'Enter the password to open & listen',
                   style: AppTypography.body.copyWith(
                     color: AppColors.white.withValues(alpha: 0.7),
-                    fontSize: 16,
+                    fontSize: 15,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -276,7 +294,7 @@ class _UnlockScreenState extends ConsumerState<UnlockScreen> {
                 SizedBox(
                   width: double.infinity,
                   child: PrimaryButton(
-                    text: 'Unlock Cassette',
+                    text: 'Open & Listen',
                     onPressed: isLoading ? null : _handleUnlock,
                     isLoading: isLoading,
                   ),
@@ -285,7 +303,7 @@ class _UnlockScreenState extends ConsumerState<UnlockScreen> {
 
                 // Help text
                 Text(
-                  'Ask the sender for the password',
+                  'The link already includes the code. You only need the password.',
                   style: AppTypography.bodySmall.copyWith(
                     color: AppColors.white.withValues(alpha: 0.5),
                   ),
